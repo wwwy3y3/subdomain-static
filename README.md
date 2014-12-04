@@ -1,7 +1,7 @@
 ## about
 subdomain-static is a nodejs module help you redirect subdomain request to certain file folders
 
-it's required to be used with express
+it's required to be used with `express` & `serve-static`
 
 ## install
 ``` javascript
