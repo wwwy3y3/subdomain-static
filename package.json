@@ -1,6 +1,6 @@
 {
   "name": "subdomain-static",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "subdomain-static is a nodejs module help you redirect subdomain request to certain file folders",
   "main": "index.js",
   "scripts": {
