@@ -1,14 +1,15 @@
 module.exports= function (settints) {
 	return function (req, res, next) {
-		if(!appHost(req.hostname)) // if request hostname is not settings hostname
+		var hosts= appHost(req.hostname);
+		if(!hosts) // if request hostname is not settings hostname
 			return next();
 
-		if(req.subdomains.length==0 || exclude(req.subdomains[0]))
+		if(!hosts.appUrl || exclude(hosts.appUrl))
 	      	return next();
 
-	    	req.url= '/'+settints.folder+'/'+req.subdomains[0]+req.url;
-	    	next();
-		}
+	    req.url= '/'+settints.folder+'/'+hosts.appUrl+req.url;
+	    next();
+	}
 
 
 	function exclude (domain) {
@@ -22,17 +23,23 @@ module.exports= function (settints) {
 		if(!settints.hostname)
 			return true;
 
+		var length= settints.hostname.split('.').length;
 		var hosts= hostname.split('.');
-		var domain= lastTwo(hosts);
-		return (domain==settints.hostname);
+		var appUrl= (hosts.length>length)?hosts[0]:null;
+		var domain= getHost(hosts, length);
+		if(domain!==settints.hostname)
+			return false;
+		else
+			return { appUrl: appUrl, domain: domain };
 	}
 
-	function lastTwo (arr) {
-		if(arr.length==0)
-			return null;
-		else if(arr.length<2)
-			return arr[0];
-		else
-			return arr[arr.length-2] + '.' + arr[arr.length-1]
-	}
+}
+
+var getHost= exports.getHost= function (hosts, length) {
+	if(hosts.length==0)
+		return null;
+	else if(hosts.length<2)
+		return hosts[0];
+	else
+		return hosts.slice(hosts.length-length).join('.');
 }
