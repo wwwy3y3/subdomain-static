@@ -4,11 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Q= require('q');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var hosts= {
+    'wwwy3y3.dev': 'app1'
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -16,7 +20,17 @@ app.set('view engine', 'jade');
 
 app.use(require('../')({ 
     folder: 'apps', 
-    hostname: 'local.host'
+    hostname: 'local.host',
+    cnameLookup: function (host) {
+        // lookup will trigger when req.hostname not equal to settings.hostname
+        // find it return
+        // else return null
+        return Q.delay(300).then(function () {
+            // lookup domain in db
+             var url= hosts[host] || null;
+            return url;
+        })
+    }
 }));
 app.use(function (req, res, next) {
 

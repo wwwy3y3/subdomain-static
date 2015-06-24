@@ -1,14 +1,17 @@
+var Q= require('q');
+
 module.exports= function (settints) {
 	return function (req, res, next) {
-		var hosts= appHost(req.hostname);
-		if(!hosts) // if request hostname is not settings hostname
-			return next();
+		appHost(req.hostname).then(function (hosts) {
+			if(!hosts)
+				return next();
 
-		if(!hosts.appUrl || exclude(hosts.appUrl))
-	      	return next();
+			if(!hosts.appUrl || exclude(hosts.appUrl))
+		      	return next();
 
-	    req.url= '/'+settints.folder+'/'+hosts.appUrl+req.url;
-	    next();
+		    req.url= '/'+settints.folder+'/'+hosts.appUrl+req.url;
+		    next();	
+		})
 	}
 
 
@@ -27,12 +30,19 @@ module.exports= function (settints) {
 		var hosts= hostname.split('.');
 		var appUrl= (hosts.length>length)?hosts[0]:null;
 		var domain= getHost(hosts, length);
-		if(domain!==settints.hostname)
-			return false;
-		else
-			return { appUrl: appUrl, domain: domain };
+		if(domain!==settints.hostname){
+			// unknown domain, who r u?
+			if(!settints.cnameLookup)
+				return Q(false);
+			else  // hey! it's me! lookup in your db
+				return Q.when(settints.cnameLookup(domain)).then(function (url) {
+					return { appUrl: url };
+				});
+		}else{
+			// yeah, same hostname, you go!
+			return Q({ appUrl: appUrl, domain: domain });
+		}
 	}
-
 }
 
 var getHost= exports.getHost= function (hosts, length) {

@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/wwwy3y3/subdomain-static/issues"
   },
-  "homepage": "https://github.com/wwwy3y3/subdomain-static"
+  "homepage": "https://github.com/wwwy3y3/subdomain-static",
+  "dependencies": {
+    "q": "^1.4.1"
+  }
 }
