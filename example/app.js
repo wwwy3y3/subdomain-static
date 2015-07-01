@@ -21,10 +21,12 @@ app.set('view engine', 'jade');
 app.use(require('../')({ 
     folder: 'apps', 
     hostname: 'local.host',
+    exclude: 'localhost',
     cnameLookup: function (host, req, res) {
         // lookup will trigger when req.hostname not equal to settings.hostname
         // find it return
         // else return null
+        console.log("lookup");
         return Q.delay(300).then(function () {
             // lookup domain in db
              var url= hosts[host] || null;
