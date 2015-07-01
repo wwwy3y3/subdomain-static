@@ -16,7 +16,7 @@ module.exports= function (settints) {
 
 		    req.url= '/'+settints.folder+'/'+hosts.appUrl+req.url;
 		    next();	
-		})
+		}).catch(next);
 	}
 
 
