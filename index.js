@@ -1,7 +1,12 @@
 var Q= require('q');
+var _= require('lodash');
 
 module.exports= function (settints) {
 	return function (req, res, next) {
+		// fast pass
+		if(settints.exclude && settints.exclude==req.hostname)
+			return next();
+
 		appHost(req, res).then(function (hosts) {
 			if(!hosts)
 				return next();

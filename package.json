@@ -1,6 +1,6 @@
 {
   "name": "subdomain-static",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "subdomain-static is a nodejs module help you redirect subdomain request to certain file folders",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/wwwy3y3/subdomain-static",
   "dependencies": {
+    "lodash": "^3.10.0",
     "q": "^1.4.1"
   }
 }
