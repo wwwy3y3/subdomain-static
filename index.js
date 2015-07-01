@@ -2,7 +2,7 @@ var Q= require('q');
 
 module.exports= function (settints) {
 	return function (req, res, next) {
-		appHost(req.hostname).then(function (hosts) {
+		appHost(req, res).then(function (hosts) {
 			if(!hosts)
 				return next();
 
@@ -22,7 +22,8 @@ module.exports= function (settints) {
 		return (settints.exclude_subdomains.indexOf(domain)>=0);
 	}
 
-	function appHost (hostname) {
+	function appHost (req, res) {
+		var hostname= req.hostname;
 		if(!settints.hostname)
 			return true;
 
@@ -35,7 +36,7 @@ module.exports= function (settints) {
 			if(!settints.cnameLookup)
 				return Q(false);
 			else  // hey! it's me! lookup in your db
-				return Q.when(settints.cnameLookup(domain)).then(function (url) {
+				return Q.when(settints.cnameLookup(domain, req, res)).then(function (url) {
 					return { appUrl: url };
 				});
 		}else{

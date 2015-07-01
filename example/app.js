@@ -21,7 +21,7 @@ app.set('view engine', 'jade');
 app.use(require('../')({ 
     folder: 'apps', 
     hostname: 'local.host',
-    cnameLookup: function (host) {
+    cnameLookup: function (host, req, res) {
         // lookup will trigger when req.hostname not equal to settings.hostname
         // find it return
         // else return null
