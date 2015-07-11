@@ -11,7 +11,8 @@ var users = require('./routes/users');
 
 var app = express();
 var hosts= {
-    'wwwy3y3.dev': 'app1'
+    'wwwy3y3.dev': 'app1',
+    'www.y3y3.dev': 'app2'
 }
 
 // view engine setup
@@ -20,8 +21,8 @@ app.set('view engine', 'jade');
 
 app.use(require('../')({ 
     folder: 'apps', 
-    hostname: 'local.host',
-    exclude: 'localhost',
+    hostname: 'localapp.host',
+    exclude: 'local.host',
     cnameLookup: function (host, req, res) {
         // lookup will trigger when req.hostname not equal to settings.hostname
         // find it return
