@@ -23,6 +23,3 @@ app.use(express.static(path.join(__dirname, 'public')));
 *	folder(required)- folder redirect to
 *	exclude_subdomains {Array}- any subdomain you want subdomain-static ignore
 *	hostname {String}- hostname you want subdomain-static to support, if domain not equal to `hostname`, then the request will be ignored by subdomain-static
-
-## todo
-*	regexp
