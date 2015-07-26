@@ -6,13 +6,18 @@ var _= require('lodash');
 */
 module.exports= function (settints) {
 	return function (req, res, next) {
+		//  test if exclude pattern fit the hostname
+		if(settints.exclude_hostname 
+			&& settints.exclude_hostname.test(req.hostname))
+			return next();
+
 		// fast pass, by looking at excluse domain
 		var hostname= req.hostname;
 		var subdomains= req.subdomains;
 		var domain= hostname.split('.').slice(subdomains.length).join('.');
 
 		// if exclude equals to domain, next
-		if(settints.exclude && settints.exclude==domain)
+		if(settints.exclude_domain && settints.exclude_domain==domain)
 			return next();
 
 		// get appUrl
