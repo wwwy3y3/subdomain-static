@@ -1,6 +1,6 @@
 var Promise= require('bluebird');
 var AWS = require('aws-sdk'); 
-var S3= new AWS.S3();
+var S3= new AWS.S3({ sslEnabled: false });
 exports.read= function (bucket, key) {
 	var getObjectAsync= Promise.promisify(S3.getObject, S3);
 	return getObjectAsync({ Bucket: bucket, Key: key })
