@@ -42,7 +42,7 @@ module.exports= function (settints) {
 			// hey! it's me! lookup in your db
 			return Q.when(settints.cnameLookup(hostname, req, res))
 			.then(function (url) {
-				return locate(settints, url, app.url);
+				return locate(settints, url, req.url);
 			});
 		}
 
