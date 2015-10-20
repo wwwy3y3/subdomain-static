@@ -25,7 +25,7 @@ module.exports= function (settints) {
 		// get appUrl
 		var regex= new RegExp('^[\\w\\-\\.]+(?=\\.'+settints.hostname.replace('.','\\.')+'$)', 'i');
 		var hosts= regex.exec(hostname);
-		console.log(hosts)
+		
 		// if hostname is settings.hostname, it's a app request
 		// so get appUrl by gettings the subdomain
 		if(hosts){
